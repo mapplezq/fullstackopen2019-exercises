@@ -56,13 +56,15 @@ const Statistics = (props) => {
             <div>
                 <Display title={title}/>
                 <table>
-                    <Statistic value={good} text="good"/>
-                    <Statistic value={neutral} text="neutral"/>
-                    <Statistic value={bad} text="bad"/>
-                    <Statistic value={good+neutral+bad} text="all"/>
-                    <Statistic value={(good+neutral+bad)/3} text="avaerage"/>
-                    <Statistic value={good/(good+neutral+bad)} text="positive" 
-                    isPercentage={true} />
+                    <tbody>
+                        <Statistic value={good} text="good"/>
+                        <Statistic value={neutral} text="neutral"/>
+                        <Statistic value={bad} text="bad"/>
+                        <Statistic value={good+neutral+bad} text="all"/>
+                        <Statistic value={(good+neutral+bad)/3} text="avaerage"/>
+                        <Statistic value={good/(good+neutral+bad)} text="positive" 
+                        isPercentage={true} />
+                    </tbody>
                 </table>
                 
             </div>
