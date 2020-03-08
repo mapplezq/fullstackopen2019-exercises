@@ -41,16 +41,24 @@ const Statistics = (props) => {
     const good = props.good
     const neutral = props.neutral
     const bad = props.bad
+    if (good > 0 | neutral > 0 | bad > 0) {
+        return (
+            <div>
+                <Display title={title}/>
+                <Result value={good} text="good"/>
+                <Result value={neutral} text="neutral"/>
+                <Result value={bad} text="bad"/>
+                <Result value={good+neutral+bad} text="all"/>
+                <Result value={(good+neutral+bad)/3} text="avaerage"/>
+                <Result value={good/(good+neutral+bad)} text="positive" 
+                isPercentage={true} />
+            </div>
+        )
+    }
+    
     return (
         <div>
-            <Display title={title}/>
-            <Result value={good} text="good"/>
-            <Result value={neutral} text="neutral"/>
-            <Result value={bad} text="bad"/>
-            <Result value={good+neutral+bad} text="all"/>
-            <Result value={(good+neutral+bad)/3} text="avaerage"/>
-            <Result value={good/(good+neutral+bad)} text="positive" 
-            isPercentage={true} />
+            <p>No feedback given</p>
         </div>
     )
 }
