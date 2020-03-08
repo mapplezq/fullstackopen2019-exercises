@@ -31,16 +31,18 @@ const Button = ({handleGoodClick,handleNeutralClick,handleBadClick}) => {
 const Statistic = ({text, value, isPercentage=false}) => {
     if (isPercentage) {
         return (
-            <div>
-                <p>{text} {value} %</p>
-            </div>
+            <tr>
+                <td>{text}</td>
+                <td>{value} %</td>
+            </tr>
         )
     }
 
     return (
-        <div>
-            <p>{text} {value}</p>
-        </div>
+        <tr>
+            <td>{text}</td>
+            <td>{value}</td>
+        </tr>
     )
 }
 
@@ -53,13 +55,16 @@ const Statistics = (props) => {
         return (
             <div>
                 <Display title={title}/>
-                <Statistic value={good} text="good"/>
-                <Statistic value={neutral} text="neutral"/>
-                <Statistic value={bad} text="bad"/>
-                <Statistic value={good+neutral+bad} text="all"/>
-                <Statistic value={(good+neutral+bad)/3} text="avaerage"/>
-                <Statistic value={good/(good+neutral+bad)} text="positive" 
-                isPercentage={true} />
+                <table>
+                    <Statistic value={good} text="good"/>
+                    <Statistic value={neutral} text="neutral"/>
+                    <Statistic value={bad} text="bad"/>
+                    <Statistic value={good+neutral+bad} text="all"/>
+                    <Statistic value={(good+neutral+bad)/3} text="avaerage"/>
+                    <Statistic value={good/(good+neutral+bad)} text="positive" 
+                    isPercentage={true} />
+                </table>
+                
             </div>
         )
     }
