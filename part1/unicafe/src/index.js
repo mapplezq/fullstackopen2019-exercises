@@ -20,7 +20,15 @@ const Button = ({handleClick, text}) => {
     )
 }
 
-const Result = ({text, value}) => {
+const Result = ({text, value, isPercentage=false}) => {
+    if (isPercentage) {
+        return (
+            <div>
+                <p>{text} {value} %</p>
+            </div>
+        )
+    }
+
     return (
         <div>
             <p>{text} {value}</p>
@@ -34,6 +42,7 @@ const App = () => {
     const [good, setGood] = useState(0)
     const [neutral, setNeutral] = useState(0)
     const [bad, setBad] = useState(0)
+    // const [total, setTotal] = useState(0)
 
     const handleGoodClick = () => {
         setGood(good + 1)
@@ -57,6 +66,10 @@ const App = () => {
             <Result value={good} text="good"/>
             <Result value={neutral} text="neutral"/>
             <Result value={bad} text="bad"/>
+            <Result value={good+neutral+bad} text="all"/>
+            <Result value={(good+neutral+bad)/3} text="avaerage"/>
+            <Result value={good/(good+neutral+bad)} text="positive" 
+            isPercentage={true} />
         </div>
     )
 }
