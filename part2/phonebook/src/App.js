@@ -1,4 +1,7 @@
 import React, { useState } from 'react'
+import Filter from './components/Filter'
+import PersonForm from './components/PersonForm'
+import Persons from './components/Persons'
 
 const App = () => {
   const [persons, setPersons] = useState([
@@ -13,7 +16,7 @@ const App = () => {
   const [ searchResult, setSearchResult ] = useState([])
   const [ isSearch, setIsSearch ] = useState(false)
 
-  const numbersToSHow = isSearch ? searchResult : persons
+  const numbersToShow = isSearch ? searchResult : persons
 
   const handleNewNameInput = (event) => {
     console.log(event.target.value);
@@ -23,6 +26,26 @@ const App = () => {
   const handleNewNumberInput = (event) => {
     console.log(event.target.value);
     setNewNumber(event.target.value)
+  }
+
+  const addNewPerson = (event) => {
+    // debugger
+    event.preventDefault()
+    // clear search status
+    setIsSearch(false)
+    setSearchKey('')
+    const find = persons.find(({name}) => name === newName)
+    if (newName.length === 0) {
+      window.alert(`name cannot be empty.`)
+    } else if (newNumber.length === 0) {
+      window.alert(`number cannot be empty.`)
+    } else if (find !== undefined ) {
+      window.alert(`${newName} is already added to phonebook`)
+    } else {
+      setPersons(persons.concat({name: newName, number: newNumber}))
+      setNewName('')
+      setNewNumber('')
+    }
   }
 
   const handleSearchInput = (event) => {
@@ -46,46 +69,16 @@ const App = () => {
     }
   }
 
-  const addNewPerson = (event) => {
-    // debugger
-    event.preventDefault()
-    // clear search status
-    setIsSearch(false)
-    setSearchKey('')
-    const find = persons.find(({name}) => name === newName)
-    if (newName.length === 0) {
-      window.alert(`name cannot be empty.`)
-    } else if (newNumber.length === 0) {
-      window.alert(`number cannot be empty.`)
-    } else if (find !== undefined ) {
-      window.alert(`${newName} is already added to phonebook`)
-    } else {
-      setPersons(persons.concat({name: newName, number: newNumber}))
-      setNewName('')
-      setNewNumber('')
-    }
-  }
-
   return (
     <div>
-      <h1>Phonebook</h1>
-      <div>
-          filter shown with: <input value={searchKey} onChange={handleSearchInput}/>
-      </div>
-      <h2>add a new</h2>
-      <form>
-        <div>
-          name: <input value={newName} onChange={handleNewNameInput}/>
-        </div>
-        <div>
-          number: <input value={newNumber} onChange={handleNewNumberInput}/>
-        </div>
-        <div>
-          <button type="submit" onClick={addNewPerson}>add</button>
-        </div>
-      </form>
-      <h2>Numbers</h2>
-      {numbersToSHow.map(person => <p key={person.name}>{person.name} {person.number}</p>)}
+      <h2>Phonebook</h2>
+      <Filter searchKey={searchKey} handleSearchInput={handleSearchInput}/>
+      <h3>Add a new</h3>
+      <PersonForm newName={newName} handleNewNameInput={handleNewNameInput}
+      newNumber={newNumber} handleNewNumberInput={handleNewNumberInput}
+      addNewPerson={addNewPerson}/>
+      <h3>Numbers</h3>
+      <Persons numbersToShow={numbersToShow}/>
     </div>
   )
 }
