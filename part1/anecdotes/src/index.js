@@ -4,6 +4,7 @@ import ReactDOM from 'react-dom';
 // import App from './App';
 // import * as serviceWorker from './serviceWorker';
 
+
 const App = (props) => {
     const [selected, setSelected] = useState(0)
     const [votes, setVotes] = useState(Array.apply(null, new Array(6)).map(Number.prototype.valueOf,0))
@@ -18,6 +19,9 @@ const App = (props) => {
         const copy = [...votes]
         copy[selected] += 1
         setVotes(copy)
+        
+        
+        
     }
 
     return (
