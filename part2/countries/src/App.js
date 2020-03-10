@@ -1,12 +1,15 @@
 import React, { useState, useEffect }  from 'react';
 import axios from 'axios'
 
+
 const SingleCountry = (props) => {
   const languages = props.country.languages.map(
     language => <li key={language.name}>{language.name}</li>)
+    console.log('sss: ', props.country);
+    
   return (
     <div>
-      <h2>{props.country.name}</h2>
+      <h1>{props.country.name}</h1>
       <p>captial {props.country.capital}</p>
       <p>population {props.country.population}</p>
       <h3>languages</h3>
@@ -14,6 +17,10 @@ const SingleCountry = (props) => {
         {languages}
       </ul>
       <img src={props.country.flag} alt="country logo" height="100" width="100" />
+      <h2>Weather in {props.country.capital}</h2>
+      <p><b>temperature:</b> {props.country.current?props.country.current.temperature:''} Celsius </p>
+      <img src={props.country.current?props.country.current.weather_icons:''} alt="weather icon"/>
+      <p><b>wind: </b>{props.country.current?props.country.current.wind_speed:''} kph direction {props.country.current?props.country.current.wind_dir:''}</p>
     </div>
   )
 }
@@ -69,9 +76,7 @@ const App = (props) => {
   const [result, setResult ] = useState([])
 
   const handleInputOnChange = (event) => {
-    const key = event.target.value
-    console.log(key);
-    setSearchKey(key)
+    setSearchKey(event.target.value)
   }
 
   useEffect(
@@ -89,6 +94,34 @@ const App = (props) => {
       }
     },
     [searchKey]
+  )
+
+  // const whenToFetchWeather = result.length === 1
+
+  useEffect(
+    () => {
+      // console.log('now: ',result);
+      if (result.length === 1) {
+        console.log('send weahter request');
+      
+        const country = result[0]
+        axios
+          .get(`http://api.weatherstack.com/current?access_key=${process.env.REACT_APP_WEATHER_API_KEY}&query=${country.name}`)
+          .then(response => {
+            console.log("weather: ",response.data)
+            // 插入当前对象里去
+            const copy = [...result]
+            copy[0] = Object.assign(response.data, copy[0])
+            console.log('copy object: ', copy);
+            setResult(copy)
+          })
+      } else {
+        console.log('dddddd');
+        
+      }
+      
+    },
+    [result.length === 1]
   )
 
   return (
