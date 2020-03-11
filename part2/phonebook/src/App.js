@@ -45,7 +45,16 @@ const App = () => {
     } else if (newNumber.length === 0) {
       window.alert(`number cannot be empty.`)
     } else if (find !== undefined ) {
-      window.alert(`${newName} is already added to phonebook`)
+      if (window.confirm(`${newNumber} is already added to phonebook, replace the old number with a new one?`)) {
+        setNewName('')
+        setNewNumber('')
+        personService
+          .update(find.id, { ...find, number: newNumber})
+          .then(returnedPerson => {
+            console.log('update returnedPerson', returnedPerson);
+            setPersons(persons.map(person => person.id !== find.id ? person : returnedPerson))
+          })
+      }
     } else {
       personService
         .create({name: newName, number: newNumber})
