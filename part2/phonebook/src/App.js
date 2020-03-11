@@ -4,13 +4,13 @@ import PersonForm from './components/PersonForm'
 import Persons from './components/Persons'
 import personService from './services/persons'
 import './index.css'
-const Notification = ({message}) => {
+const Notification = ({message, level}) => {
   if (message === null) {
     return null
   }
 
   return (
-    <div className="error">
+    <div className={level===0?'error':'warning'}>
       {message}
     </div>
   )
@@ -72,6 +72,15 @@ const App = () => {
               setErrorMessage(null)
             }, 5000)
           })
+          .catch(error => {
+            setErrorMessage(
+              `Infomation of ${find.name} has already been removed from server`
+            , 1)
+            setTimeout(() => {
+              setErrorMessage(null)
+            }, 5000)
+            setPersons(persons.filter(person => person.id !== find.id))
+          })
       }
     } else {
       personService
@@ -80,8 +89,7 @@ const App = () => {
           console.log(returnedPerson)
           setPersons(persons.concat(returnedPerson))
           setErrorMessage(
-            `Add ${newName} success`
-          )
+            `Add ${newName} success`, 0)
           setTimeout(() => {
             setErrorMessage(null)
           }, 5000)
@@ -123,7 +131,7 @@ const App = () => {
                 console.log('retun ', returnedPerson);
                 setPersons(persons.filter(person => person.id !== id))
                 setErrorMessage(
-                  `Delete success`
+                  `Delete success`, 0
                 )
                 setTimeout(() => {
                   setErrorMessage(null)
