@@ -79,6 +79,22 @@ const App = () => {
     }
   }
 
+  const deleteBtnClick = (id, event) => {
+    console.log(event)
+    console.log('id is', id)
+    if (window.confirm(`Delete cxxx`)) {
+        console.log('Ok button clicked');
+        personService
+            .deletePerson(id)
+            .then(returnedPerson => {
+                console.log('retun ', returnedPerson);
+                setPersons(persons.filter(person => person.id !== id))
+            })
+    } else {
+        console.log('Cancel button clicked');
+    }
+}
+
   return (
     <div>
       <h2>Phonebook</h2>
@@ -88,7 +104,7 @@ const App = () => {
       newNumber={newNumber} handleNewNumberInput={handleNewNumberInput}
       addNewPerson={addNewPerson}/>
       <h3>Numbers</h3>
-      <Persons numbersToShow={numbersToShow}/>
+      <Persons numbersToShow={numbersToShow} deleteBtnClick={deleteBtnClick}/>
     </div>
   )
 }
